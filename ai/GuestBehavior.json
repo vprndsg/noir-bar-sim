@@ -1,0 +1,90 @@
+{
+  "title": "GuestBehaviorTree",
+  "description": "Behavior Tree for bar guests (order, wait, drink, leave).",
+  "root": "nodeRoot",
+  "nodes": {
+    "nodeRoot": {
+      "id": "nodeRoot",
+      "name": "Priority",
+      "children": ["nodeLeaveSeq", "nodeOrderSeq", "nodeWaitSeq", "nodeDrinkSeq", "nodeIdle"]
+    },
+    "nodeLeaveSeq": {
+      "id": "nodeLeaveSeq",
+      "name": "Sequence",
+      "children": ["condShouldLeave", "actLeave"]
+    },
+    "condShouldLeave": {
+      "id": "condShouldLeave",
+      "name": "ConditionShouldLeave"
+    },
+    "actLeave": {
+      "id": "actLeave",
+      "name": "ActionLeave"
+    },
+    "nodeOrderSeq": {
+      "id": "nodeOrderSeq",
+      "name": "Sequence",
+      "children": ["condNotOrdered", "actOrder"]
+    },
+    "condNotOrdered": {
+      "id": "condNotOrdered",
+      "name": "ConditionNotOrdered"
+    },
+    "actOrder": {
+      "id": "actOrder",
+      "name": "ActionOrderDrink"
+    },
+    "nodeWaitSeq": {
+      "id": "nodeWaitSeq",
+      "name": "Sequence",
+      "children": ["condOrderedNotServed", "waitForServe", "actImpatient"]
+    },
+    "condOrderedNotServed": {
+      "id": "condOrderedNotServed",
+      "name": "ConditionOrderedNotServed"
+    },
+    "waitForServe": {
+      "id": "waitForServe",
+      "name": "Wait",
+      "title": "WaitForService",
+      "properties": { "milliseconds": 30000 }
+    },
+    "actImpatient": {
+      "id": "actImpatient",
+      "name": "ActionSetLeaveImpatient"
+    },
+    "nodeDrinkSeq": {
+      "id": "nodeDrinkSeq",
+      "name": "Sequence",
+      "children": ["condServedNotDone", "waitDrink", "actFinish"]
+    },
+    "condServedNotDone": {
+      "id": "condServedNotDone",
+      "name": "ConditionServedNotDone"
+    },
+    "waitDrink": {
+      "id": "waitDrink",
+      "name": "Wait",
+      "title": "WaitDrinkFinish",
+      "properties": { "milliseconds": 15000 }
+    },
+    "actFinish": {
+      "id": "actFinish",
+      "name": "ActionFinishDrink"
+    },
+    "nodeIdle": {
+      "id": "nodeIdle",
+      "name": "Runner"
+    }
+  },
+  "custom_nodes": [
+    { "name": "ConditionShouldLeave", "category": "condition" },
+    { "name": "ConditionNotOrdered", "category": "condition" },
+    { "name": "ConditionOrderedNotServed", "category": "condition" },
+    { "name": "ConditionServedNotDone", "category": "condition" },
+    { "name": "ActionOrderDrink", "category": "action" },
+    { "name": "ActionSetLeaveImpatient", "category": "action" },
+    { "name": "ActionFinishDrink", "category": "action" },
+    { "name": "ActionLeave", "category": "action" }
+  ]
+}
