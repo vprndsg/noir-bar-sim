@@ -1,0 +1,18 @@
+{
+  "Martini": {
+    "ingredients": {
+      "gin": 1,
+      "vermouth": 1
+    }
+  },
+  "Whiskey (neat)": {
+    "ingredients": {
+      "whiskey": 1
+    }
+  },
+  "Rum (neat)": {
+    "ingredients": {
+      "rum": 1
+    }
+  }
+}
