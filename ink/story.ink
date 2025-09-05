@@ -1,6 +1,5 @@
 TITLE: "Night Shift at Blackwood Bar"
 AUTHOR: "Your Name"
-
 # theme: dark
 
 === start ===
@@ -29,7 +28,7 @@ He leaves a few bills on the counter. #TIP: 5 #SCORE: 1
 === second_guest ===
 A moment later, another patron stomps in, shaking off an umbrella.
 A gruff lumberjack type, red-cheeked from the cold.
-"Bourbon. Neat," he barks, slapping a ten on the bar.
+"Bourbon. Neat," he barks, slapping a ten on the bar. 
 "Make it a double if you've got it."
 You reach for the whiskey bottle.
 The amber liquid swirls into the glass. #RECIPE: Whiskey (neat)
