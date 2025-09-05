@@ -1,0 +1,120 @@
+/* General Dark Theme Styles */
+body.dark {
+  background: #1a1a1a url('https://www.transparenttextures.com/patterns/dark-wood.png') repeat;
+  /* Dark wood textured background; pattern from transparenttextures.com */
+  color: #e0e0e0;
+  font-family: "Georgia", serif;
+  margin: 0;
+  padding: 0;
+  /* Add a subtle vignette (dark corners) effect */
+  position: relative;
+}
+body.dark::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
+  /* Transparent in center, dark at edges */
+}
+
+/* Layout the game container and sidebar */
+#game {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  align-items: stretch;
+  justify-content: space-between;
+}
+#storyOutput {
+  flex: 1 1 auto;
+  padding: 1em 2em;
+  line-height: 1.5;
+  font-size: 1.1em;
+  white-space: pre-wrap; /* preserve line breaks */
+  overflow-y: auto;
+}
+#sidebar {
+  flex: 0 0 200px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+  padding: 1em;
+  border-left: 2px solid #444;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#sidebar h2 {
+  font-family: "Courier New", monospace;
+  font-size: 1.1em;
+  color: #bbb;
+  margin: 0 0 0.5em;
+  border-bottom: 1px solid #555;
+}
+#inventory {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1em;
+}
+#inventory li {
+  font-size: 0.9em;
+  color: #ccc;
+  margin: 0.2em 0;
+}
+#inventory li.low {
+  color: #f0a000; /* low stock warning in amber */
+}
+#inventory li.out {
+  color: #d15757; /* out of stock in a muted red */
+}
+#status {
+  font-size: 0.9em;
+  color: #aaa;
+  border-top: 1px solid #444;
+  padding-top: 0.5em;
+}
+#status p {
+  margin: 0.2em 0;
+}
+
+/* Choices buttons */
+#choices {
+  padding: 1em 2em;
+}
+#choices button {
+  background: #333;
+  color: #ddd;
+  border: 1px solid #555;
+  padding: 0.5em 1em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  font-family: inherit;
+  font-size: 1em;
+  cursor: pointer;
+}
+#choices button:hover {
+  background: #444;
+  color: #fff;
+}
+#choices button:focus {
+  outline: 2px solid #777;
+}
+
+/* Flicker effect: apply to #game container when event triggers */
+#game.flicker {
+  animation: lightsFlicker 0.75s ease-in-out;
+}
+@keyframes lightsFlicker {
+  0%   { opacity: 1; filter: brightness(100%); }
+  5%   { opacity: 0.8; filter: brightness(85%); }
+  10%  { opacity: 1; filter: brightness(100%); }
+  30%  { opacity: 0.6; filter: brightness(60%); }
+  35%  { opacity: 1; filter: brightness(100%); }
+  100% { opacity: 1; filter: brightness(100%); }
+}
+/* After flicker animation, remove the class (handled in JS). */
+
+/* Additional ambiance: slight text shadow for a hazy look */
+#storyOutput, #sidebar {
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
