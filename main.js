@@ -1,5 +1,12 @@
 import { World, System, Component, TagComponent, Types } from "https://ecsyjs.github.io/ecsy/build/ecsy.module.js";
 
+// Pull the Behavior3JS and InkJS singletons from the window object.
+// These libraries are loaded via script tags in index.html and attach themselves
+// to `window`. In an ES module, top-level globals like `b3` and `inkjs`
+// are not automatically available, so we alias them here.
+const b3 = window.b3;
+const inkjs = window.inkjs;
+
 // This file sets up the ECS world, loads a Behavior3JS tree and Ink story,
 // and ties everything together for the noir bar sim. NPCs are ECS entities
 // with components for AI state and a reference to a BT blackboard. A global
@@ -8,9 +15,7 @@ import { World, System, Component, TagComponent, Types } from "https://ecsyjs.gi
 // ========== 1. ECS Components ==========
 class GuestComponent extends Component {}
 GuestComponent.schema = {
-  // Each guest has a reference to its Behavior3JS blackboard
   blackboard: { type: Types.Ref, default: null },
-  // Flags tracking the guest's state
   ordered: { type: Types.Boolean, default: false },
   served: { type: Types.Boolean, default: false },
   shouldLeave: { type: Types.Boolean, default: false }
@@ -31,17 +36,12 @@ class Leaving extends TagComponent {}
 
 // ========== 2. ECS Systems ==========
 
-// System to handle AI behavior tree ticking for each guest. The BT will set
-// flags on the GuestComponent that determine when they order, wait, drink
-// and leave. This system runs once per tick interval.
 class AISystem extends System {
   execute(delta, time) {
     this.queries.guests.results.forEach(entity => {
       const guest = entity.getComponent(GuestComponent);
       if (!guest) return;
-      // Tick the behavior tree for this guest
       GuestBehaviorTree.tick(entity, guest.blackboard);
-      // After ticking, check for leaving state
       if (guest.shouldLeave) {
         entity.addComponent(Leaving);
       }
@@ -52,8 +52,6 @@ AISystem.queries = {
   guests: { components: [GuestComponent] }
 };
 
-// System to remove guests marked for leaving. When the BT sets shouldLeave
-// this tag is added and this system removes them from the world.
 class GuestRemovalSystem extends System {
   execute() {
     this.queries.leavers.results.forEach(entity => {
@@ -65,9 +63,6 @@ GuestRemovalSystem.queries = {
   leavers: { components: [Leaving] }
 };
 
-// System to update the inventory UI whenever inventory data changes. It reads
-// from the InventoryComponent and populates the list in the sidebar with
-// color-coded status for low/out of stock items.
 class InventoryUISystem extends System {
   execute() {
     const invEntity = this.queries.inventory.results[0];
@@ -92,7 +87,6 @@ InventoryUISystem.queries = {
   inventory: { components: [InventoryComponent] }
 };
 
-// System to update score/tips UI whenever score data changes.
 class ScoreUISystem extends System {
   execute() {
     const scoreEntity = this.queries.score.results[0];
@@ -117,11 +111,9 @@ world.registerSystem(AISystem)
      .registerSystem(InventoryUISystem)
      .registerSystem(ScoreUISystem);
 
-// Create global entities for Inventory and Score
 const inventoryEntity = world.createEntity().addComponent(InventoryComponent);
 const scoreEntity = world.createEntity().addComponent(ScoreComponent);
 
-// Variables to hold loaded data
 let Recipes = {};
 let Settings = {};
 let GuestBehaviorTree = null;
@@ -140,7 +132,6 @@ async function loadInitialData() {
 // ========== 5. Behavior Tree Setup ==========
 function loadBehaviorTree(json) {
   GuestBehaviorTree = new b3.BehaviorTree();
-  // Custom Condition and Action nodes for our bar guests
   const ConditionShouldLeave = b3.Class(b3.Condition, {
     name: "ConditionShouldLeave",
     tick: function(tick) {
@@ -169,7 +160,6 @@ function loadBehaviorTree(json) {
       return guestComp && guestComp.served && !guestComp.shouldLeave ? b3.SUCCESS : b3.FAILURE;
     }
   });
-  // Actions
   const ActionOrderDrink = b3.Class(b3.Action, {
     name: "ActionOrderDrink",
     tick: function(tick) {
@@ -202,7 +192,6 @@ function loadBehaviorTree(json) {
   const ActionLeave = b3.Class(b3.Action, {
     name: "ActionLeave",
     tick: function(tick) {
-      // This action could trigger narrative leaving text; here we just succeed
       return b3.SUCCESS;
     }
   });
@@ -270,7 +259,6 @@ function handleTags(tags) {
           } else if (tagValue === "guest_arrive") {
             spawnGuest();
           }
-          // Additional event tags can be added here.
         }
         break;
       }
@@ -344,7 +332,6 @@ function continueStory() {
   }
 }
 
-// ========== 7. Guest Spawning Helper ==========
 function spawnGuest() {
   const guestEntity = world.createEntity();
   const blackboard = new b3.Blackboard();
@@ -352,12 +339,8 @@ function spawnGuest() {
   return guestEntity;
 }
 
-// ========== 8. Game Initialization ==========
 async function startGame() {
   await loadInitialData();
-  // Load and compile the Ink story. We use the ink-full build of inkjs,
-  // which exposes a Compiler. Fetch the .ink source, compile to JSON,
-  // then instantiate the Story.
   const inkSource = await (await fetch("ink/story.ink")).text();
   let compiled;
   try {
@@ -367,7 +350,6 @@ async function startGame() {
     return;
   }
   story = new inkjs.Story(compiled);
-  // Load behavior tree JSON for guests
   const btJson = await (await fetch("ai/GuestBehavior.json")).json();
   loadBehaviorTree(btJson);
   continueStory();
