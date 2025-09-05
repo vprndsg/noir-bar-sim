@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noir Bar Sim</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+  <div id="game">
+    <!-- Story/Narrative text output area -->
+    <div id="storyOutput"></div>
+    <!-- Container for choice buttons (appears when there are Ink choices) -->
+    <div id="choices"></div>
+    <!-- Sidebar for inventory and status -->
+    <div id="sidebar">
+      <h2>Inventory</h2>
+      <ul id="inventory"></ul>
+      <div id="status">
+        <p>Tips: $<span id="tips">0</span></p>
+        <p>Score: <span id="score">0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Behavior3JS (behavior tree library) -->
+  <script src="https://cdn.jsdelivr.net/npm/behavior3js@0.2.2/libs/behavior3-0.2.2.js"></script>
+  <!-- Include InkJS (Ink runtime library with compiler) -->
+  <script src="https://cdn.jsdelivr.net/npm/inkjs@2.3.2/dist/ink-full.js"></script>
+  <!-- Include ECSY (ECS framework) via module import in main.js -->
+  <script type="module" src="main.js"></script>
+</body>
+</html>
