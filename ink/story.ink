@@ -1,7 +1,4 @@
-TITLE: "Night Shift at Blackwood Bar"
 
-AUTHOR: "Your Name"
-# theme: dark
 
 === start ===
 It's 9 PM on a Thursday. Rain pelts the old tin roof of the Blackwood Bar. You wipe down the counter and glance at the dusty neon sign flickering in the window.
