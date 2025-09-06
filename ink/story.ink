@@ -69,5 +69,6 @@ A delivery truck pulls up outside as you lock up – a late order of supplies.
 Two burly men lug crates into your storeroom, replenishing your stock for tomorrow. #INGREDIENT: whiskey +5 #EVENT: restock
 The bar is quiet again, the only sound the hum of the refrigerator and the patter of rain.
 It's been a long night, but a decent one.
+
 You count your earnings and reflect on the night's work.
-<- END ->
+-> END
