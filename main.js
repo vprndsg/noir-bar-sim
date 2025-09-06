@@ -344,7 +344,16 @@ async function startGame() {
   const inkSource = await (await fetch("ink/story.ink")).text();
   let compiled;
   try {
-    compiled = new inkjs.Compiler(inkSource).Compile();
+    // inkjs 2.x requires its WASM module to be loaded before compiling
+    if (inkjs?.Compiler && typeof inkjs.Compiler.loadWasmModule === "function") {
+      await inkjs.Compiler.loadWasmModule("https://cdn.jsdelivr.net/npm/inkjs@2.3.2/dist/ink.wasm");
+      compiled = new inkjs.Compiler(inkSource).Compile();
+    } else if (typeof inkjs.compile === "function") {
+      // newer inkjs exposes a top level async compile function
+      compiled = await inkjs.compile(inkSource);
+    } else {
+      compiled = new inkjs.Compiler(inkSource).Compile();
+    }
   } catch (e) {
     console.error("Failed to compile Ink story", e);
     return;
