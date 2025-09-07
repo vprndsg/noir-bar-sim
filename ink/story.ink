@@ -9,7 +9,7 @@ The woods are quiet tonight... too quiet. You wonder what kind of souls the stor
 A figure pushes open the door, trailing rainwater. A weary traveler, by the look of him, in a crumpled coat and fedora.
 "Cold night, huh?" he mutters, meeting your eyes briefly.
 *   (friendly) "Warm yourself up. What'll it be?" -> order1
-*   (quiet) *Nod and wait for his order.* -> order1
+*   (quiet) Nod and wait for his order. -> order1
 
 === order1 ===
 "Martini, thanks. Extra dry." #RECIPE: Martini
@@ -29,7 +29,7 @@ A gruff lumberjack type, red-cheeked from the cold.
 "Bourbon. Neat," he barks, slapping a ten on the bar. 
 "Make it a double if you've got it."
 You reach for the whiskey bottle.
-The amber liquid swirls into the glass. #RECIPE: Whiskey (neat)
+The amber liquid swirls into the glass. #RECIPE: Whiskey_neat
 It's the last of the whiskey – the bottle runs dry. #INGREDIENT: whiskey -1
 He shoots it back in one go and grunts in approval.
 "Keep the change," he mumbles, tossing a couple of crumpled bills. #TIP: 3 #SCORE: 1
@@ -50,7 +50,7 @@ You freeze, remembering the empty whiskey bottle.
 === offer_rum ===
 "We're out of whiskey, but how about a dark rum? On the house."
 He raises an eyebrow, then nods slowly. "Fine."
-You pour a measure of aged rum and slide it over. #RECIPE: Rum (neat) #INGREDIENT: rum -1
+You pour a measure of aged rum and slide it over. #RECIPE: Rum_neat #INGREDIENT: rum -1
 He takes a sip. "Not bad," he concedes, a hint of a smirk on his face.
 He leaves a small tip, despite it being on the house. #TIP: 2 #SCORE: 1
 "Good night," he says, tipping his hat as he departs.
