@@ -5,12 +5,12 @@
       "vermouth": 1
     }
   },
-  "Whiskey (neat)": {
+  "Whiskey_neat": {
     "ingredients": {
       "whiskey": 1
     }
   },
-  "Rum (neat)": {
+  "Rum_neat": {
     "ingredients": {
       "rum": 1
     }
